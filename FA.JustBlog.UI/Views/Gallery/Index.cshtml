@@ -1,0 +1,91 @@
+﻿@model List<FA.JustBlog.Core.Models.Image>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<style>
+    .gallery-image {
+        height: 300px; /* Set the desired fixed height for the images */
+        object-fit: cover; /* Maintain aspect ratio and cover the container */
+        border: 1px solid #ccc; /* Add a border around the image */
+        display: block; /* Ensure the image occupies the full width of the container */
+        cursor: pointer; /* Change cursor to indicate clickability */
+    }
+
+    .post-title {
+        text-align: center;
+    }
+
+    .image-description {
+        margin-top: 10px;
+        text-align: center;
+    }
+</style>
+
+<!-- Modal -->
+<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body">
+                <img src="" alt="Modal Image" id="modalImage" class="img-fluid">
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container px-4 px-lg-5">
+    <div class="row gx-4 gx-lg-5 justify-content-center">
+        <div class="col-8">
+            <h1 class="post-title">Gallery</h1>
+            <br />
+            <div class="row">
+                @if (Model.Any())
+                {
+                    @foreach (var image in Model)
+                    {
+                        <div class="col-md-4">
+                            <div class="image-container">
+                                <img src="@image.FilePath" alt="Image" class="img-fluid gallery-image" data-bs-toggle="modal" data-bs-target="#imageModal" data-image-url="@image.FilePath">
+                                <div class="image-description">
+                                    <p>@image.Description</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>No Image found, please add Images in Admin.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<br />
+<br />
+<br />
+
+<div class="d-flex justify-content-center">
+    <nav aria-label="Page navigation example">
+        <ul class="pagination">
+            <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+            <li class="page-item"><a class="page-link" href="#">1</a></li>
+            <li class="page-item"><a class="page-link" href="#">Next</a></li>
+        </ul>
+    </nav>
+</div>
+
+<script>
+    // Update the modal image source when the image is clicked
+    var modalImage = document.getElementById('modalImage');
+    var galleryImages = document.getElementsByClassName('gallery-image');
+
+    Array.from(galleryImages).forEach(function (image) {
+        image.addEventListener('click', function () {
+            var imageUrl = this.getAttribute('data-image-url');
+            modalImage.src = imageUrl;
+        });
+    });
+</script>

@@ -1,0 +1,20 @@
+﻿﻿@using FA.JustBlog.Core.Models;
+@model List<Comment>
+
+@if (Model.Any())
+{
+    <h4>Comments:</h4>
+    <ul>
+        @foreach (var comment in Model)
+        {
+            <li>
+                <strong>@comment.Name</strong> - @comment.CommentTime.ToShortDateString()
+                <p>@comment.CommentText</p>
+            </li>
+        }
+    </ul>
+}
+else
+{
+    <p>No comments yet.</p>
+}
